@@ -10,5 +10,10 @@ namespace KIVANC_WEB.Data
             : base(options)
         {
         }
+
+        public DbSet<Duyuru> Duyurular { get; set; }
+        public DbSet<YemekMenu> YemekMenuleri { get; set; }
+        public DbSet<IsgBildirim> IsgBildirimleri { get; set; }
+
     }
 }
