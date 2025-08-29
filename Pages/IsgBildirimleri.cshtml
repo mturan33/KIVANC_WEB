@@ -1,0 +1,42 @@
+﻿@page
+@model KIVANC_WEB.Pages.IsgBildirimleriModel
+@{
+    ViewData["Title"] = "Tüm İSG Bildirimleri";
+}
+
+<h1 class="display-4 text-center mb-4">Tüm İSG Bildirimleri</h1>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Durum</th>
+            <th>Konum</th>
+            <th>Açıklama</th>
+            <th>Bildiren</th>
+            <th>Tarih</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bildirim in Model.BildirimListesi)
+        {
+            // Duruma göre satır rengini belirle (Çözülmemişse kırmızımsı)
+            var rowClass = bildirim.CozulduMu ? "" : "table-danger";
+            <tr class="@rowClass">
+                <td>
+                    @if (bildirim.CozulduMu)
+                    {
+                        <span class="badge bg-success">Çözüldü</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Bekliyor</span>
+                    }
+                </td>
+                <td>@bildirim.Konum</td>
+                <td>@bildirim.TehlikeAciklamasi</td>
+                <td>@bildirim.BildirenKisi</td>
+                <td>@bildirim.BildirimTarihi.ToString("dd.MM.yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>

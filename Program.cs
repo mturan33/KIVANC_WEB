@@ -2,8 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using KIVANC_WEB.Data; // Projenizin adýnýn "KIVANC_WEB" olduðunu varsayýyoruz
+using KIVANC_WEB.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// WeatherService ve HttpClient'ý projenin servislerine ekliyoruz.
+builder.Services.AddHttpClient<WeatherService>();
+builder.Services.AddScoped<WeatherService>();
 
 // Add services to the container.
 

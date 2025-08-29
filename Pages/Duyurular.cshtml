@@ -1,0 +1,31 @@
+﻿@page
+@model KIVANC_WEB.Pages.DuyurularModel
+@{
+    ViewData["Title"] = "Duyurular";
+}
+
+<h1 class="display-4 text-center mb-4">Tüm Duyurular</h1>
+
+@if (Model.DuyuruListesi.Any())
+{
+    @foreach (var duyuru in Model.DuyuruListesi)
+    {
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">@duyuru.Baslik</h5>
+                    <span class="badge bg-secondary">@duyuru.YayinTarihi.ToString("dd MMMM yyyy")</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="card-text">@duyuru.Icerik</p>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-info text-center">
+        Görüntülenecek herhangi bir duyuru bulunmuyor.
+    </div>
+}

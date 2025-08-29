@@ -1,0 +1,43 @@
+﻿@page
+@model KIVANC_WEB.Pages.IsEmirleriModel
+@{
+    ViewData["Title"] = "Tüm İş Emirleri";
+}
+
+<h1 class="display-4 text-center mb-4">Tüm İş Emirleri</h1>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Durum</th>
+            <th>Konu</th>
+            <th>Atanan</th>
+            <th>Lokasyon</th>
+            <th>Oluşturulma</th>
+            <th>Tamamlanma</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var isEmri in Model.IsEmriListesi)
+        {
+            var rowClass = isEmri.TamamlandiMi ? "" : "table-warning";
+            <tr class="@rowClass">
+                <td>
+                    @if (isEmri.TamamlandiMi)
+                    {
+                        <span class="badge bg-success">Tamamlandı</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning text-dark">Açık</span>
+                    }
+                </td>
+                <td>@isEmri.Konu</td>
+                <td>@isEmri.AtananKisi</td>
+                <td>@isEmri.Lokasyon</td>
+                <td>@isEmri.OlusturmaTarihi.ToString("dd.MM.yyyy")</td>
+                <td>@(isEmri.TamamlanmaTarihi?.ToString("dd.MM.yyyy") ?? "---")</td>
+            </tr>
+        }
+    </tbody>
+</table>

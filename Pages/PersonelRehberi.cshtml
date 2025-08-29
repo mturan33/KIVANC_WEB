@@ -1,0 +1,27 @@
+﻿@page
+@model KIVANC_WEB.Pages.PersonelRehberiModel
+@{
+    ViewData["Title"] = "Şirket Telefon Rehberi";
+}
+
+<h1 class="display-4 text-center mb-4">Şirket Telefon Rehberi</h1>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Ad Soyad</th>
+            <th>Telefon Numarası</th>
+            <th>E-posta Adresi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var personel in Model.PersonelListesi)
+        {
+            <tr>
+                <td>@personel.AdSoyad</td>
+                <td>@personel.TelefonNumarasi</td>
+                <td><a href="mailto:@personel.EmailAdresi">@personel.EmailAdresi</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

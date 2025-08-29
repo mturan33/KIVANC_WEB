@@ -3,6 +3,7 @@ using System;
 using KIVANC_WEB.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KIVANC_WEB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250829085235_AddServisHattiTable")]
+    partial class AddServisHattiTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -98,29 +101,6 @@ namespace KIVANC_WEB.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("IsgBildirimleri");
-                });
-
-            modelBuilder.Entity("KIVANC_WEB.Models.Personel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AdSoyad")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("EmailAdresi")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TelefonNumarasi")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PersonelRehberi");
                 });
 
             modelBuilder.Entity("KIVANC_WEB.Models.ServisHatti", b =>
