@@ -14,6 +14,9 @@ namespace KIVANC_WEB.Data
         public DbSet<Duyuru> Duyurular { get; set; }
         public DbSet<YemekMenu> YemekMenuleri { get; set; }
         public DbSet<IsgBildirim> IsgBildirimleri { get; set; }
+        public DbSet<IsEmri> IsEmirleri { get; set; }
+        public DbSet<ServisHatti> ServisHatları { get; set; }
+        public DbSet<Personel> PersonelRehberi { get; set; }
 
     }
 }

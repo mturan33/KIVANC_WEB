@@ -1,0 +1,143 @@
+﻿@page
+@model KIVANC_WEB.Pages.HavaDurumuModel
+@{
+    ViewData["Title"] = "Haftalık Hava Durumu";
+}
+
+<h1 class="display-4 text-center mb-4">Haftalık Hava Durumu Tahmini</h1>
+
+@if (Model.Forecast?.Daily != null && Model.Forecast.Daily.Time != null && Model.Forecast.Daily.Time.Any() &&
+     Model.Forecast.Daily.WeatherCode != null && Model.Forecast.Daily.Temperature2mMax != null && Model.Forecast.Daily.Temperature2mMin != null)
+{
+    <!-- HAFTALIK KART GÖRÜNÜMÜ -->
+    <div class="row">
+        @for (int i = 0; i < Model.Forecast.Daily.Time.Count; i++)
+        {
+            var date = DateTime.Parse(Model.Forecast.Daily.Time[i]);
+            var weatherCode = Model.Forecast.Daily.WeatherCode[i];
+            var maxTemp = Model.Forecast.Daily.Temperature2mMax[i];
+            var minTemp = Model.Forecast.Daily.Temperature2mMin[i];
+            var (icon, description) = GetWeatherInfo(weatherCode);
+
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card shadow-sm text-center h-100">
+                    <div class="card-header">
+                        <strong>@date.ToString("dd MMMM")</strong><br />
+                        <span class="text-muted">@date.ToString("dddd")</span>
+                    </div>
+                    <div class="card-body">
+                        <i class="bi @icon fs-1 text-primary"></i>
+                        <p class="card-text my-2">@description</p>
+                        <h5 class="card-title">@maxTemp°C / <span class="text-muted">@minTemp°C</span></h5>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- #################### YENİ BÖLÜM BAŞLANGICI #################### -->
+    <hr class="my-5" />
+
+    <!-- HAFTALIK SAATLİK GRAFİK -->
+    <h2 class="text-center mb-4">Haftalık Saatlik Sıcaklık Grafiği</h2>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <canvas id="weeklyHourlyTempChart"></canvas>
+        </div>
+    </div>
+    <!-- #################### YENİ BÖLÜM BİTİŞİ #################### -->
+}
+else
+{
+    <div class="alert alert-danger">Hava durumu verileri alınamadı. Lütfen daha sonra tekrar deneyin.</div>
+}
+
+
+@* Yardımcı fonksiyon ve scriptler için bölüm *@
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Chart.js kütüphanesini ekliyoruz -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script> <!-- Tarih formatı için gerekli -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // C#'tan gelen tüm saatlik verileri JavaScript'e aktarıyoruz
+            var hourlyData = @Json.Serialize(Model.Forecast?.Hourly);
+
+            if (hourlyData && hourlyData.time && hourlyData.temperature_2m) {
+                const ctx = document.getElementById('weeklyHourlyTempChart');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: hourlyData.time, // Etiketler olarak tüm tarih-saat dizisini kullan
+                        datasets: [{
+                            label: 'Sıcaklık (°C)',
+                            data: hourlyData.temperature_2m,
+                            borderColor: 'rgb(54, 162, 235)',
+                            tension: 0.3,
+                            pointRadius: 1 // Noktaları küçültelim ki grafik daha temiz görünsün
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'time', // X ekseninin bir zaman çizgisi olduğunu belirtiyoruz
+                                time: {
+                                    unit: 'day', // Ana birimleri gün olarak göster
+                                    displayFormats: {
+                                        day: 'dd MMM' // '29 Ağu', '30 Ağu' gibi
+                                    }
+                                },
+                                ticks: {
+                                    source: 'auto'
+                                }
+                            },
+                            y: {
+                                beginAtZero: false
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true // Grafiğin ne olduğunu gösteren etiketi gösterelim
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        },
+                        interaction: {
+                            mode: 'nearest',
+                            axis: 'x',
+                            intersect: false
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}
+
+
+@{
+    // Hava durumu kodunu ikona ve açıklamaya çeviren yardımcı fonksiyon
+    (string, string) GetWeatherInfo(int code)
+    {
+        return code switch
+        {
+            0 => ("bi-sun-fill", "Açık, Güneşli"),
+            1 => ("bi-cloud-sun-fill", "Parçalı Bulutlu"),
+            2 => ("bi-cloud-fill", "Bulutlu"),
+            3 => ("bi-clouds-fill", "Çok Bulutlu"),
+            45 or 48 => ("bi-cloud-fog-fill", "Sisli"),
+            51 or 53 or 55 => ("bi-cloud-drizzle-fill", "Çiseleme"),
+            61 or 63 or 65 => ("bi-cloud-rain-heavy-fill", "Yağmurlu"),
+            66 or 67 => ("bi-cloud-sleet-fill", "Dolu"),
+            71 or 73 or 75 => ("bi-snow2", "Karlı"),
+            80 or 81 or 82 => ("bi-cloud-lightning-rain-fill", "Sağanak Yağışlı"),
+            95 or 96 or 99 => ("bi-cloud-lightning-fill", "Fırtınalı"),
+            _ => ("bi-question-circle", "Bilinmiyor")
+        };
+    }
+}

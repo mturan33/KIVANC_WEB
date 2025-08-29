@@ -1,0 +1,25 @@
+﻿@page
+@model KIVANC_WEB.Pages.ServisHatlarıModel
+@{
+    ViewData["Title"] = "Tüm Servis Hatları";
+}
+
+<h1 class="display-4 text-center mb-4">Tüm Servis Hatları ve Güzergahları</h1>
+
+<div class="accordion" id="servisAccordion">
+    @foreach (var servis in Model.ServisHattiListesi)
+    {
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-@servis.Id">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@servis.Id" aria-expanded="false" aria-controls="collapse-@servis.Id">
+                    <strong>@servis.HatAdi</strong>&nbsp;(@servis.Plaka - @servis.SoforAdi)
+                </button>
+            </h2>
+            <div id="collapse-@servis.Id" class="accordion-collapse collapse" aria-labelledby="heading-@servis.Id" data-bs-parent="#servisAccordion">
+                <div class="accordion-body">
+                    <strong>Güzergah:</strong> @servis.Guzergah
+                </div>
+            </div>
+        </div>
+    }
+</div>

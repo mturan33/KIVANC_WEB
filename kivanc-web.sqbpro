@@ -1,8 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="kivanc-web.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3325"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="AspNetRoleClaims" custom_title="0" dock_id="1" table="4,16:mainAspNetRoleClaims"/><dock_state state="000000ff00000000fd00000001000000020000000000000000fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000011800ffffff000000000000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1*">INSERT INTO YemekMenuleri (Tarih, Corba, AnaYemek, Tatli) VALUES
-(date('now'), 'Mercimek Çorbası', 'Orman Kebabı', 'Sütlaç'),
-(date('now', '+1 day'), 'Ezogelin Çorbası', 'Tavuk Döner', 'Kazandibi'),
-(date('now', '+2 day'), 'Yayla Çorbası', 'İzmir Köfte', 'Meyve'),
-(date('now', '+3 day'), 'Domates Çorbası', 'Karnıyarık', 'Revani'),
-(date('now', '+4 day'), 'Mantar Çorbası', 'Balık Buğulama', 'İrmik Helvası'),
-(date('now', '+5 day'), 'Brokoli Çorbası', 'Taze Fasulye', 'Yoğurt'),
-(date('now', '+6 day'), 'Şehriye Çorbası', 'Et Sote', 'Puding');</sql><current_tab id="0"/></tab_sql></sqlb_project>
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="kivanc-web.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3325"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="AspNetRoleClaims" custom_title="0" dock_id="1" table="4,16:mainAspNetRoleClaims"/><dock_state state="000000ff00000000fd00000001000000020000000000000000fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000011800ffffff000000000000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1*">-- Önce mevcut verileri temizleyelim ki komut tekrar çalıştırılabilir olsun
+DELETE FROM PersonelRehberi;
+DELETE FROM sqlite_sequence WHERE name='PersonelRehberi';
+
+INSERT INTO PersonelRehberi (AdSoyad, TelefonNumarasi, EmailAdresi) VALUES
+('Ahmet Yılmaz', '532 101 00 01', 'ahmet.yilmaz@kivanctekstil.com'), ('Ayşe Kaya', '532 101 00 02', 'ayse.kaya@kivanctekstil.com'),
+('Mehmet Demir', '532 101 00 03', 'mehmet.demir@kivanctekstil.com'), ('Fatma Çelik', '532 101 00 04', 'fatma.celik@kivanctekstil.com'),
+('Mustafa Şahin', '532 101 00 05', 'mustafa.sahin@kivanctekstil.com'), ('Zeynep Yıldız', '532 101 00 06', 'zeynep.yildiz@kivanctekstil.com'),
+('Ali Öztürk', '532 101 00 07', 'ali.ozturk@kivanctekstil.com'), ('Elif Aydın', '532 101 00 08', 'elif.aydin@kivanctekstil.com'),
+('Hasan Doğan', '532 101 00 09', 'hasan.dogan@kivanctekstil.com'), ('Emine Arslan', '532 101 00 10', 'emine.arslan@kivanctekstil.com'),
+('İbrahim Kılıç', '532 101 00 11', 'ibrahim.kilic@kivanctekstil.com'), ('Sultan Çetin', '532 101 00 12', 'sultan.cetin@kivanctekstil.com'),
+('Kemal Koç', '532 101 00 13', 'kemal.koc@kivanctekstil.com'), ('Meryem Kara', '532 101 00 14', 'meryem.kara@kivanctekstil.com'),
+('Yusuf Kurt', '532 101 00 15', 'yusuf.kurt@kivanctekstil.com'), ('Hatice Özdemir', '532 101 00 16', 'hatice.ozdemir@kivanctekstil.com'),
+('Hüseyin Can', '532 101 00 17', 'huseyin.can@kivanctekstil.com'), ('Songül Polat', '532 101 00 18', 'songul.polat@kivanctekstil.com'),
+('Murat Toprak', '532 101 00 19', 'murat.toprak@kivanctekstil.com'), ('Derya Aksoy', '532 101 00 20', 'derya.aksoy@kivanctekstil.com'),
+('Osman Barış', '532 101 00 21', 'osman.baris@kivanctekstil.com'), ('Sibel Gezer', '532 101 00 22', 'sibel.gezer@kivanctekstil.com'),
+('Serkan Bulut', '532 101 00 23', 'serkan.bulut@kivanctekstil.com'), ('Nurdan Erdem', '532 101 00 24', 'nurdan.erdem@kivanctekstil.com'),
+('Gökhan Keskin', '532 101 00 25', 'gokhan.keskin@kivanctekstil.com'), ('Yasemin Aslan', '532 101 00 26', 'yasemin.aslan@kivanctekstil.com'),
+('Tarkan Işık', '532 101 00 27', 'tarkan.isik@kivanctekstil.com'), ('Pınar Gürbüz', '532 101 00 28', 'pinar.gurbuz@kivanctekstil.com'),
+('Volkan Sönmez', '532 101 00 29', 'volkan.sonmez@kivanctekstil.com'), ('Burcu Tekin', '532 101 00 30', 'burcu.tekin@kivanctekstil.com'),
+('Fatih Ünal', '532 101 00 31', 'fatih.unal@kivanctekstil.com'), ('Esra Avcı', '532 101 00 32', 'esra.avci@kivanctekstil.com'),
+('Umut Coşkun', '532 101 00 33', 'umut.coskun@kivanctekstil.com'), ('Didem Korkmaz', '532 101 00 34', 'didem.korkmaz@kivanctekstil.com'),
+('Levent Aktaş', '532 101 00 35', 'levent.aktas@kivanctekstil.com'), ('Tuğba Uçar', '532 101 00 36', 'tugba.ucar@kivanctekstil.com'),
+('İsmail Uysal', '532 101 00 37', 'ismail.uysal@kivanctekstil.com'), ('Bahar Doğanay', '532 101 00 38', 'bahar.doganay@kivanctekstil.com'),
+('Okan Gök', '532 101 00 39', 'okan.gok@kivanctekstil.com'), ('Deniz Ceylan', '532 101 00 40', 'deniz.ceylan@kivanctekstil.com'),
+('Cihan Sarı', '532 101 00 41', 'cihan.sari@kivanctekstil.com'), ('Aylin Ateş', '532 101 00 42', 'aylin.ates@kivanctekstil.com'),
+('Hakan Vural', '532 101 00 43', 'hakan.vural@kivanctekstil.com'), ('Gamze Güneş', '532 101 00 44', 'gamze.gunes@kivanctekstil.com'),
+('Koray Taş', '532 101 00 45', 'koray.tas@kivanctekstil.com'), ('Melek Duran', '532 101 00 46', 'melek.duran@kivanctekstil.com'),
+('Tolga Mert', '532 101 00 47', 'tolga.mert@kivanctekstil.com'), ('Sevda Kaplan', '532 101 00 48', 'sevda.kaplan@kivanctekstil.com'),
+('Emre Bilgin', '532 101 00 49', 'emre.bilgin@kivanctekstil.com'), ('Aslı Çakır', '532 101 00 50', 'asli.cakir@kivanctekstil.com');</sql><current_tab id="0"/></tab_sql></sqlb_project>

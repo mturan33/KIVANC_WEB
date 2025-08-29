@@ -1,10 +1,284 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="text-center">
+<div class="text-center mb-5">
     <h1 class="display-4">Kıvanç Tekstil Portalına Hoş Geldiniz</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p class="lead text-muted">Fabrika içi bilgilendirme ve operasyon merkezi.</p>
 </div>
+
+<div class="row">
+    <!-- SOL TARAFTAKİ BÜYÜK KUTULAR -->
+    <div class="col-lg-8">
+
+        <!-- İSG BİLDİRİMLERİ KUTUSU -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">⚠️ Önemli İSG Bildirimleri (Çözülmemiş Son 3)</h5>
+            </div>
+            <div class="list-group list-group-flush">
+                @if (Model.SonUcIsgBildirimleri.Any())
+                {
+                    @foreach (var bildirim in Model.SonUcIsgBildirimleri)
+                    {
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 text-danger">@bildirim.Konum</h6>
+                                <small>@bildirim.BildirimTarihi.ToString("dd MMM")</small>
+                            </div>
+                            <p class="mb-1">@bildirim.TehlikeAciklamasi</p>
+                            <small class="text-muted">Bildiren: @bildirim.BildirenKisi</small>
+                        </a>
+                    }
+                }
+                else
+                {
+                    <div class="list-group-item">
+                        <p class="text-success mb-0">Tebrikler! Çözülmemiş İSG bildirimi bulunmuyor.</p>
+                    </div>
+                }
+            </div>
+            <div class="card-footer text-center">
+                <a href="/IsgBildirimleri" class="btn btn-sm btn-outline-danger">Tüm Bildirimleri Gör</a>
+            </div>
+        </div>
+
+        <!-- #################### YENİ BÖLÜM BAŞLANGICI #################### -->
+        <!-- EN SON DUYURULAR KUTUSU -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">📢 En Son Duyurular</h5>
+            </div>
+            <div class="list-group list-group-flush">
+                @if (Model.SonUcDuyurular.Any())
+                {
+                    @foreach (var duyuru in Model.SonUcDuyurular)
+                    {
+                        <a href="/Duyurular" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">@duyuru.Baslik</h6>
+                                <small>@duyuru.YayinTarihi.ToString("dd MMM")</small>
+                            </div>
+                            @* İçeriğin sadece bir kısmını gösterelim, çok uzun olmasın *@
+                            <p class="mb-1 text-muted">@duyuru.Icerik.Substring(0, Math.Min(duyuru.Icerik.Length, 100))...</p>
+                        </a>
+                    }
+                }
+                else
+                {
+                    <div class="list-group-item">
+                        <p class="text-muted mb-0">Henüz yayınlanmış bir duyuru yok.</p>
+                    </div>
+                }
+            </div>
+            <div class="card-footer text-center">
+                <a href="/Duyurular" class="btn btn-sm btn-outline-primary">Tüm Duyuruları Gör</a>
+            </div>
+        </div>
+        <!-- #################### YENİ BÖLÜM BİTİŞİ #################### -->
+        <!-- İŞ EMİRLERİ KUTUSU (Artık Duyurular yerine bu tek başına duracak) -->
+        <!-- İŞ EMİRLERİ KUTUSU -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">📋 Açık İş Emirleri (En Yeni 3)</h5>
+            </div>
+            <div class="list-group list-group-flush">
+                @if (Model.SonUcIsEmirleri.Any())
+                {
+                    @foreach (var isEmri in Model.SonUcIsEmirleri)
+                    {
+                        <a href="/IsEmirleri" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 text-dark">@isEmri.Konu</h6>
+                                <small>@isEmri.OlusturmaTarihi.ToString("dd MMM")</small>
+                            </div>
+                            <p class="mb-1">@isEmri.Lokasyon</p>
+                            <small class="text-muted">Atanan: @isEmri.AtananKisi</small>
+                        </a>
+                    }
+                }
+                else
+                {
+                    <div class="list-group-item">
+                        <p class="text-success mb-0">Tebrikler! Açık iş emri bulunmuyor.</p>
+                    </div>
+                }
+            </div>
+            <div class="card-footer text-center">
+                <a href="/IsEmirleri" class="btn btn-sm btn-outline-warning text-dark">Tüm İş Emirlerini Gör</a>
+            </div>
+        </div>
+
+        <!-- TELEFON REHBERİ KUTUSU -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">📞 Telefon Rehberi (Rastgele 5 Kişi)</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var kisi in Model.RastgelePersonel)
+                {
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <strong>@kisi.AdSoyad</strong>
+                            <a href="mailto:@kisi.EmailAdresi">@kisi.EmailAdresi</a>
+                        </div>
+                        <div class="text-muted">@kisi.TelefonNumarasi</div>
+                    </li>
+                }
+            </ul>
+            <div class="card-footer text-center">
+                <a href="/PersonelRehberi" class="btn btn-sm btn-outline-secondary">Tüm Rehberi Gör</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SAĞ TARAFTAKİ KÜÇÜK KUTULAR (DEĞİŞİKLİK YOK) -->
+    <div class="col-lg-4">
+        <!-- YEMEKHANE MENÜSÜ KUTUSU -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">🍽️ Günün Menüsü</h5>
+            </div>
+            <div class="card-body text-center">
+                @if (Model.GununMenusu != null)
+                {
+                    <p class="mb-1">@Model.GununMenusu.Corba</p>
+                    <h4 class="mb-2">@Model.GununMenusu.AnaYemek</h4>
+                    <p class="text-muted mb-0">@Model.GununMenusu.Tatli</p>
+                }
+                else
+                {
+                    <p class="text-muted mb-0">Bugün için menü bilgisi girilmemiştir.</p>
+                }
+            </div>
+            <div class="card-footer text-center">
+                <a href="/YemekMenusu" class="btn btn-sm btn-outline-success">Haftalık Menüyü Gör</a>
+            </div>
+        </div>
+
+        <!-- SERVİS HATLARI KUTUSU -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">🚌 Servis Hatları (Rastgele 10)</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var servis in Model.RastgeleServisler)
+                {
+                    <li class="list-group-item">@servis.HatAdi</li>
+                }
+            </ul>
+            <div class="card-footer text-center">
+                <a href="/ServisHatları" class="btn btn-sm btn-outline-info">Tüm Servisleri Gör</a>
+            </div>
+        </div>
+
+        <!-- HAVA DURUMU KUTUSU -->
+        @if (Model.Forecast?.Current != null)
+        {
+            var (icon, description) = GetWeatherInfo(Model.Forecast.Current.WeatherCode);
+            <div class="card shadow-sm mb-4 text-center">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi @icon me-2"></i> Hava Durumu</h5>
+                </div>
+                <div class="card-body">
+                    <h1 class="display-3">@Model.Forecast.Current.Temperature2m°C</h1>
+                    <p class="lead">@description</p>
+                </div>
+                <div class="card-footer">
+                    <a href="/HavaDurumu" class="btn btn-sm btn-outline-primary">Haftalık Tahmini Gör</a>
+                </div>
+            </div>
+        }
+
+        <!-- SAATLİK GRAFİK -->
+        @if (Model.Forecast?.Hourly?.Time != null)
+        {
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h6 class="card-title text-center text-muted">Bugünün Saatlik Sıcaklık Grafiği</h6>
+                    <canvas id="hourlyTempChart"></canvas>
+                </div>
+            </div>
+        }
+
+
+        <!-- DİĞER KUTULAR -->
+        <div class="list-group shadow-sm">
+            <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-people-fill me-2"></i> Mevcudiyet Listesi</a>
+            <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-question-circle-fill me-2"></i> Destek & Yardım</a>
+        </div>
+
+        @{
+            // Hava durumu kodunu ikona ve açıklamaya çeviren yardımcı fonksiyon
+            (string, string) GetWeatherInfo(int code)
+            {
+                // (Bu fonksiyonu Haftalık sayfasından kopyalayıp buraya da yapıştırın)
+                return code switch
+                {
+                    0 => ("bi-sun-fill", "Açık, Güneşli"),
+                    1 => ("bi-cloud-sun-fill", "Parçalı Bulutlu"),
+                    2 => ("bi-cloud-fill", "Bulutlu"),
+                    3 => ("bi-clouds-fill", "Çok Bulutlu"),
+                    45 or 48 => ("bi-cloud-fog-fill", "Sisli"),
+                    51 or 53 or 55 => ("bi-cloud-drizzle-fill", "Çiseleme"),
+                    61 or 63 or 65 => ("bi-cloud-rain-heavy-fill", "Yağmurlu"),
+                    66 or 67 => ("bi-cloud-sleet-fill", "Dolu"),
+                    71 or 73 or 75 => ("bi-snow2", "Karlı"),
+                    80 or 81 or 82 => ("bi-cloud-lightning-rain-fill", "Sağanak Yağışlı"),
+                    95 or 96 or 99 => ("bi-cloud-lightning-fill", "Fırtınalı"),
+                    _ => ("bi-question-circle", "Bilinmiyor")
+                };
+            }
+        }
+
+    </div>
+</div>
+
+<!-- Bootstrap Ikonları için CSS linki (Eğer _Layout.cshtml dosyanızda yoksa ekleyin) -->
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // C#'tan gelen saatlik verileri JavaScript'e aktarıyoruz
+            var hourlyData = @Json.Serialize(Model.Forecast?.Hourly);
+
+            if (hourlyData && hourlyData.time && hourlyData.temperature_2m) {
+                const ctx = document.getElementById('hourlyTempChart');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        // Sadece ilk 24 saatin etiketini al
+                        labels: hourlyData.time.slice(0, 24).map(t => new Date(t).getHours() + ':00'),
+                        datasets: [{
+                            label: 'Sıcaklık (°C)',
+                            // Sadece ilk 24 saatin sıcaklık verisini al
+                            data: hourlyData.temperature_2m.slice(0, 24),
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.2, // Eğimi biraz daha yumuşatalım
+                            fill: true, // Alanı boyayalım
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)' // Alan rengi
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: false
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+}
